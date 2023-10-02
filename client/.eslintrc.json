@@ -10,11 +10,11 @@
     "@vue/eslint-config-typescript",
     "@vue/eslint-config-prettier/skip-formatting"
   ],
-  "parser": "@vue-eslint-parser",
+  "parser": "vue-eslint-parser",
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module",
-    "project": "./tsconfig.client.json",
+    "project": "client/tsconfig.json",
     "parser": "@typescript-eslint/parser"
   },
   "plugins": ["@typescript-eslint", "unused-imports", "prettier"],
