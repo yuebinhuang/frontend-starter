@@ -5,8 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import RegisterForm from "@/components/Login/RegisterForm.vue";
 import LoginForm from "@/components/Login/LoginForm.vue";
+import RegisterForm from "@/components/Login/RegisterForm.vue";
 </script>
 
 <style scoped>
