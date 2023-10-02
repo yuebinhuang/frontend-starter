@@ -7,8 +7,8 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
 import { useUserStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
 
 const { currentUsername } = storeToRefs(useUserStore());
 const { logoutUser } = useUserStore();
