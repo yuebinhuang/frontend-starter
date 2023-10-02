@@ -19,5 +19,4 @@ export default defineConfig({
       },
     },
   },
-  build: { rollupOptions: { input: { app: join(__dirname, "public/index.html") } } },
 });
