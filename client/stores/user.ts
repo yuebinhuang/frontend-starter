@@ -84,7 +84,7 @@ export const useUserStore = defineStore(
       }
     };
 
-    const updateUser = async (newInfo) => {
+    const updateUser = async (newInfo: Object) => {
       const response = await fetch("api/users", {
         method: "PATCH",
         headers: {
