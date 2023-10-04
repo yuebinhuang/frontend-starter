@@ -9,7 +9,7 @@ const { isLoggedIn } = storeToRefs(useUserStore());
   <header>
     <nav>
       <div class="left">
-        <img src="@/assets/logo.svg" />
+        <img src="@/assets/images/logo.svg" />
         <RouterLink to="/" class="link">
           <h1 class="title">Social Media App</h1>
         </RouterLink>
