@@ -9,6 +9,10 @@ export const useUserStore = defineStore(
 
     const isLoggedIn = computed(() => currentUsername.value !== "");
 
+    const resetStore = () => {
+      currentUsername.value = "";
+    };
+
     const createUser = async (username: string, password: string) => {
       const response = await fetch("api/users", {
         method: "POST",
@@ -45,10 +49,12 @@ export const useUserStore = defineStore(
         }),
       });
       // console.log(response);
-      const result = await response.json();
+      // const result = await response.json();
       // console.log(result);
 
-      await router.push({ name: "home" });
+      if (response.ok) {
+        await router.push({ name: "home" });
+      }
     };
 
     const updateSession = async () => {
@@ -71,12 +77,48 @@ export const useUserStore = defineStore(
       // console.log(response);
       // const result = await response.json();
       // console.log(result);
-      currentUsername.value = "";
 
-      await router.push({ name: "login" });
+      if (response.ok) {
+        resetStore();
+        await router.push({ name: "login" });
+      }
     };
 
-    return { currentUsername, isLoggedIn, createUser, loginUser, updateSession, logoutUser };
+    const updateUser = async (newInfo) => {
+      const response = await fetch("api/users", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newInfo),
+      });
+    };
+
+    const deleteUser = async () => {
+      const response = await fetch("api/users", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      // const result = await response.json();
+
+      if (response.ok) {
+        resetStore();
+        await router.push({ name: "home" });
+      }
+    };
+
+    return {
+      currentUsername,
+      isLoggedIn,
+      createUser,
+      loginUser,
+      updateSession,
+      logoutUser,
+      updateUser,
+      deleteUser,
+    };
   },
   { persist: true },
 );
