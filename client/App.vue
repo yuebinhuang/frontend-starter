@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import { useUserStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
+import { RouterLink, RouterView } from "vue-router";
+const { isLoggedIn } = storeToRefs(useUserStore());
+</script>
+
 <template>
   <header>
     <nav>
@@ -18,17 +25,10 @@
   <RouterView />
 </template>
 
-<script setup lang="ts">
-import { useUserStore } from "@/stores/user";
-import { storeToRefs } from "pinia";
-import { RouterLink, RouterView } from "vue-router";
-const { isLoggedIn } = storeToRefs(useUserStore());
-</script>
-
 <style scoped>
 nav {
   padding: 1vw 2vw;
-  background-color: #f8f0fc;
+  background-color: lightgray;
   display: flex;
   justify-content: space-between;
   align-items: center;

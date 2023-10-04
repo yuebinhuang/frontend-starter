@@ -1,16 +1,3 @@
-<template>
-  <form class="form" @submit.prevent="register(username, password)">
-    <h3>Register User</h3>
-    <label>Username:</label>
-    <input type="text" v-model="username" />
-    <br />
-    <label>Password:</label>
-    <input type="password" id="password" v-model="password" />
-    <br />
-    <button type="submit">Register</button>
-  </form>
-</template>
-
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user";
 import { ref } from "vue";
@@ -28,3 +15,16 @@ const register = async (username: string, password: string) => {
   }
 };
 </script>
+
+<template>
+  <form class="form" @submit.prevent="register(username, password)">
+    <h3>Register User</h3>
+    <label>Username:</label>
+    <input type="text" v-model="username" />
+    <br />
+    <label>Password:</label>
+    <input type="password" id="password" v-model="password" />
+    <br />
+    <button type="submit">Register</button>
+  </form>
+</template>
