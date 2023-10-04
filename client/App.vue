@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
-import { RouterLink, RouterView } from "vue-router";
+import { computed } from "vue";
+import { RouterLink, RouterView, useRoute } from "vue-router";
+
+const currentRoute = useRoute();
+const currentRouteName = computed(() => currentRoute.name);
 const { isLoggedIn } = storeToRefs(useUserStore());
 </script>
 
@@ -10,16 +14,21 @@ const { isLoggedIn } = storeToRefs(useUserStore());
     <nav>
       <div class="left">
         <img src="@/assets/images/logo.svg" />
-        <RouterLink to="/" class="link">
+        <RouterLink :to="{ name: 'Home' }">
           <h1 class="title">Social Media App</h1>
         </RouterLink>
       </div>
-      <button v-if="isLoggedIn">
-        <RouterLink to="/setting" class="link"> Settings </RouterLink>
-      </button>
-      <button v-else>
-        <RouterLink to="/login" class="link"> Login </RouterLink>
-      </button>
+      <ul>
+        <li>
+          <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }"> Home </RouterLink>
+        </li>
+        <li v-if="isLoggedIn">
+          <RouterLink :to="{ name: 'Settings' }" :class="{ underline: currentRouteName == 'Settings' }"> Settings </RouterLink>
+        </li>
+        <li v-else>
+          <RouterLink :to="{ name: 'Login' }" :class="{ underline: currentRouteName == 'Login' }"> Login </RouterLink>
+        </li>
+      </ul>
     </nav>
   </header>
   <RouterView />
@@ -49,9 +58,20 @@ img {
   display: flex;
   align-items: normal;
 }
-.link {
+a {
   font-size: large;
   color: black;
   text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+
+.underline {
+  text-decoration: underline;
 }
 </style>

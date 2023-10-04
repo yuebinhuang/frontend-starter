@@ -27,7 +27,7 @@ export const useUserStore = defineStore(
         const username: string = result.user.username;
         const password: string = result.user.password;
 
-        await router.push({ name: "home" });
+        await router.push({ name: "Home" });
 
         return { username, password };
       }
@@ -48,7 +48,7 @@ export const useUserStore = defineStore(
       const result = await response.json();
       // console.log(result);
 
-      await router.push({ name: "home" });
+      await router.push({ name: "Home" });
     };
 
     const updateSession = async () => {
@@ -73,7 +73,7 @@ export const useUserStore = defineStore(
       // console.log(result);
       currentUsername.value = "";
 
-      await router.push({ name: "login" });
+      await router.push({ name: "Login" });
     };
 
     return { currentUsername, isLoggedIn, createUser, loginUser, updateSession, logoutUser };
