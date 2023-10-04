@@ -6,9 +6,11 @@ const username = ref("");
 const password = ref("");
 const { loginUser, updateSession } = useUserStore();
 
-const login = async (username: string, password: string) => {
-  await loginUser(username, password);
+const login = async (inputUsername: string, inputPassword: string) => {
+  await loginUser(inputUsername, inputPassword);
   await updateSession();
+  username.value = "";
+  password.value = "";
 };
 </script>
 

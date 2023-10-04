@@ -6,13 +6,15 @@ const username = ref("");
 const password = ref("");
 const { createUser, loginUser, updateSession } = useUserStore();
 
-const register = async (username: string, password: string) => {
-  const userInfo = await createUser(username, password);
+const register = async (intputUsername: string, inputPassword: string) => {
+  const userInfo = await createUser(intputUsername, inputPassword);
   if (userInfo) {
     const { username, password } = userInfo;
     await loginUser(username, password);
     await updateSession();
   }
+  username.value = "";
+  password.value = "";
 };
 </script>
 
