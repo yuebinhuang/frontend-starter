@@ -1,55 +1,79 @@
 <script setup lang="ts">
+import { useToastStore } from "@/stores/toast";
 import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
+import { onBeforeMount } from "vue";
 import { RouterLink, RouterView } from "vue-router";
-const { isLoggedIn } = storeToRefs(useUserStore());
+
+const userStore = useUserStore();
+
+const { isLoggedIn } = storeToRefs(userStore);
+const { toast } = storeToRefs(useToastStore());
+
+// Make sure to update the session before mounting the app in case the user is already logged in
+onBeforeMount(async () => {
+  try {
+    await userStore.updateSession();
+  } catch {
+    // User is not logged in
+  }
+});
 </script>
 
 <template>
   <header>
     <nav>
-      <div class="left">
+      <div class="title">
         <img src="@/assets/images/logo.svg" />
-        <RouterLink to="/" class="link">
-          <h1 class="title">Social Media App</h1>
+        <RouterLink to="/">
+          <h1>Social Media App</h1>
         </RouterLink>
       </div>
-      <button v-if="isLoggedIn">
-        <RouterLink to="/setting" class="link"> Settings </RouterLink>
-      </button>
-      <button v-else>
-        <RouterLink to="/login" class="link"> Login </RouterLink>
-      </button>
+      <div class="right">
+        <RouterLink v-if="isLoggedIn" to="/setting" class="button">Settings</RouterLink>
+        <RouterLink v-else to="/login" class="button">Login/Register</RouterLink>
+      </div>
     </nav>
+    <article v-if="toast !== null" class="toast" :class="toast.style">
+      <p>{{ toast.message }}</p>
+    </article>
   </header>
   <RouterView />
 </template>
 
 <style scoped>
+@import "./assets/toast.css";
+
 nav {
-  padding: 1vw 2vw;
+  padding: 1em 2em;
   background-color: lightgray;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  position: relative;
-  z-index: 100;
 }
 
-.title {
-  font-size: 32px;
-  margin: 0 5px;
+h1 {
+  font-size: 2em;
+  margin: 0;
 }
 
 img {
-  height: 34px;
+  height: 2em;
 }
 
-.left {
+.title {
   display: flex;
-  align-items: normal;
+  align-items: center;
+  gap: 0.5em;
 }
-.link {
+
+.right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+a {
   font-size: large;
   color: black;
   text-decoration: none;

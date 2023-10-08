@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import router from "@/router";
 import { useUserStore } from "@/stores/user";
 import { ref } from "vue";
 
@@ -6,23 +7,30 @@ const username = ref("");
 const password = ref("");
 const { loginUser, updateSession } = useUserStore();
 
-const login = async (inputUsername: string, inputPassword: string) => {
-  await loginUser(inputUsername, inputPassword);
-  await updateSession();
-  username.value = "";
-  password.value = "";
-};
+async function login() {
+  await loginUser(username.value, password.value);
+  void updateSession();
+  void router.push({ name: "home" });
+}
 </script>
 
 <template>
-  <form class="form" @submit.prevent="login(username, password)">
+  <form class="form" @submit.prevent="login">
     <h3>Login</h3>
-    <label>Username:</label>
-    <input type="text" v-model="username" />
-    <br />
-    <label>Password:</label>
-    <input type="password" v-model="password" />
-    <br />
+    <label>Username: <input v-model.trim="username" required /> </label>
+    <label>Password: <input type="password" v-model.trim="password" required /> </label>
     <button type="submit">Login</button>
   </form>
 </template>
+
+<style scoped>
+h3 {
+  margin: 0;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}
+</style>

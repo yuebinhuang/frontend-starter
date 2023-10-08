@@ -1,6 +1,7 @@
-import router from "@/router";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
+
+import { BodyT, fetchy } from "../utils/fetchy";
 
 export const useUserStore = defineStore(
   "user",
@@ -14,99 +15,35 @@ export const useUserStore = defineStore(
     };
 
     const createUser = async (username: string, password: string) => {
-      const response = await fetch("api/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-        }),
+      await fetchy("api/users", "POST", {
+        body: { username, password },
       });
-      // console.log(response);
-      const result = await response.json();
-      // console.log(result);
-      if (response.ok) {
-        const username: string = result.user.username;
-        const password: string = result.user.password;
-
-        await router.push({ name: "home" });
-
-        return { username, password };
-      }
     };
 
     const loginUser = async (username: string, password: string) => {
-      const response = await fetch("api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-        }),
+      await fetchy("api/login", "POST", {
+        body: { username, password },
       });
-      // console.log(response);
-      // const result = await response.json();
-      // console.log(result);
-
-      if (response.ok) {
-        await router.push({ name: "home" });
-      }
     };
 
     const updateSession = async () => {
-      const response = await fetch("api/session");
-      // console.log(response);
-      const result = await response.json();
-      // console.log(result);
-      if (response.ok) {
-        currentUsername.value = result.username;
-      }
+      // Catch the exception to not alert when the user is not logged in
+      const { username } = await fetchy("api/session", "GET", { alert: false });
+      currentUsername.value = username;
     };
 
     const logoutUser = async () => {
-      const response = await fetch("api/logout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      // console.log(response);
-      // const result = await response.json();
-      // console.log(result);
-
-      if (response.ok) {
-        resetStore();
-        await router.push({ name: "login" });
-      }
+      await fetchy("api/logout", "POST");
+      resetStore();
     };
 
-    const updateUser = async (newInfo: Object) => {
-      const response = await fetch("api/users", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newInfo),
-      });
+    const updateUser = async (patch: BodyT) => {
+      await fetchy("api/users", "PATCH", { body: { update: patch } });
     };
 
     const deleteUser = async () => {
-      const response = await fetch("api/users", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      // const result = await response.json();
-
-      if (response.ok) {
-        resetStore();
-        await router.push({ name: "home" });
-      }
+      await fetchy("api/users", "DELETE");
+      resetStore();
     };
 
     return {
