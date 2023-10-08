@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CreatePostForm from "@/components/Post/CreatePostForm.vue";
 import PostComponent from "@/components/Post/PostComponent.vue";
 import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
@@ -21,8 +22,8 @@ async function getPosts(author?: string) {
     result.forEach(function (element: Record<string, string>) {
       element.dateCreated = new Date(element.dateCreated).toLocaleString();
       element.dateUpdated = new Date(element.dateUpdated).toLocaleString();
-      posts.push(element);
     });
+    Object.assign(posts, result);
   }
 }
 
@@ -37,8 +38,11 @@ onBeforeMount(async () => {
     <h1>This is the home page!</h1>
     <h1 v-if="isLoggedIn">Welcome {{ currentUsername }}!</h1>
     <h1 v-else>Please login!</h1>
-    <section v-if="loaded">
-      <PostComponent v-for="post in posts" :key="post._id" :post="post" />
+    <section v-if="isLoggedIn">
+      <CreatePostForm @refreshPosts="getPosts" />
+    </section>
+    <section class="posts" v-if="loaded">
+      <PostComponent v-for="post in posts" :key="post._id" :post="post" @refreshPosts="getPosts" />
     </section>
     <p v-else>Loading...</p>
   </main>
@@ -55,5 +59,9 @@ section {
   gap: 1em;
   margin: 0 auto;
   max-width: 60em;
+}
+
+.posts {
+  padding: 1em;
 }
 </style>
