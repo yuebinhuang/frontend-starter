@@ -12,18 +12,26 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      name: "home",
+      name: "Home",
       component: HomeView,
     },
     {
       path: "/setting",
-      name: "setting",
+      name: "Settings",
       component: SettingView,
+      meta: { requiresAuth: true },
     },
     {
       path: "/login",
-      name: "login",
+      name: "Login",
       component: LoginView,
+      meta: { requiresAuth: false },
+      beforeEnter: (to, from) => {
+        const { isLoggedIn } = storeToRefs(useUserStore());
+        if (isLoggedIn.value) {
+          return { name: "Settings" };
+        }
+      },
     },
     {
       path: "/:catchAll(.*)",
@@ -39,12 +47,8 @@ const router = createRouter({
 router.beforeEach((to, from) => {
   const { isLoggedIn } = storeToRefs(useUserStore());
 
-  if (!isLoggedIn.value && to.name === "setting") {
-    return { name: "login" };
-  }
-
-  if (isLoggedIn.value && to.name === "login") {
-    return { name: "setting" };
+  if (to.meta.requiresAuth && !isLoggedIn.value) {
+    return { name: "Login" };
   }
 });
 
