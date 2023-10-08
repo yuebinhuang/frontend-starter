@@ -16,3 +16,8 @@ a.button {
   align-items: center;
   gap: 1em;
 }
+
+.button-error {
+  color: white;
+  background: rgb(247, 39, 39);
+}
