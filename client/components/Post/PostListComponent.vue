@@ -42,12 +42,12 @@ onBeforeMount(async () => {
     <h2>Create a post:</h2>
     <CreatePostForm @refreshPosts="getPosts" />
   </section>
-  <section class="posts" v-if="loaded && posts">
-    <div class="row">
-      <h2 v-if="!searchAuthor">Posts:</h2>
-      <h2 v-else>Posts by {{ searchAuthor }}:</h2>
-      <SearchPostForm @getPostsByAuthor="getPosts" />
-    </div>
+  <div class="row">
+    <h2 v-if="!searchAuthor">Posts:</h2>
+    <h2 v-else>Posts by {{ searchAuthor }}:</h2>
+    <SearchPostForm @getPostsByAuthor="getPosts" />
+  </div>
+  <section class="posts" v-if="loaded && posts.length !== 0">
     <article v-for="post in posts" :key="post._id">
       <PostComponent v-if="editing !== post._id" :post="post" @refreshPosts="getPosts" @editPost="updateEditing" />
       <EditPostForm v-else :post="post" @refreshPosts="getPosts" @editPost="updateEditing" />
@@ -62,6 +62,11 @@ section {
   display: flex;
   flex-direction: column;
   gap: 1em;
+}
+
+section,
+p,
+.row {
   margin: 0 auto;
   max-width: 60em;
 }
@@ -81,5 +86,7 @@ article {
 .row {
   display: flex;
   justify-content: space-between;
+  margin: 0 auto;
+  max-width: 60em;
 }
 </style>
