@@ -16,22 +16,27 @@ async function register() {
 </script>
 
 <template>
-  <form class="form" @submit.prevent="register">
+  <form class="pure-form pure-form-aligned" @submit.prevent="register">
     <h3>Register User</h3>
-    <label>Username: <input type="text" v-model.trim="username" required /> </label>
-    <label>Password: <input type="password" id="password" v-model.trim="password" required /> </label>
-    <button type="submit">Register</button>
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="aligned-name">Username</label>
+        <input v-model.trim="username" type="text" id="aligned-name" placeholder="Username" required />
+      </div>
+      <div class="pure-control-group">
+        <label for="aligned-password">Password</label>
+        <input type="password" v-model.trim="password" id="aligned-password" placeholder="Password" required />
+      </div>
+      <div class="pure-controls">
+        <button type="submit" class="pure-button pure-button-primary">Register</button>
+      </div>
+    </fieldset>
   </form>
 </template>
 
 <style scoped>
 h3 {
-  margin: 0;
-}
-form {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1em;
+  justify-content: center;
 }
 </style>

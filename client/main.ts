@@ -1,4 +1,5 @@
 import "@/assets/main.css";
+import "purecss";
 
 import { createPinia } from "pinia";
 import piniaPluginPersistedState from "pinia-plugin-persistedstate";

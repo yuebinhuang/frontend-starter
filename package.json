@@ -4,17 +4,14 @@
   "scripts": {
     "dev:client": "vite",
     "build:client": "vue-tsc -p client/tsconfig.json --noEmit && vite build",
-
     "dev:server": "npm run build:server && concurrently \"tsc -p server/tsconfig.json -w\" \"nodemon -r source-map-support/register dist-server/api/index.js\"",
     "build:server": "tsc -p server/tsconfig.json",
     "start:server": "npm run build:server && node -r source-map-support/register dist-server/api/index.js",
-
     "build": "npm run build:client && npm run build:server",
     "lint:client": "eslint client/ --ext .ts && prettier client/ --check",
     "lint:server": "eslint server/ --ext .ts && prettier server/ --check",
     "format:client": "eslint client/ --ext .ts --fix && prettier client/ --write",
     "format:server": "eslint server/ --ext .ts --fix && prettier server/ --write",
-
     "lint": "npm run lint:client && npm run lint:server",
     "format": "npm run format:client && npm run format:server"
   },
@@ -55,6 +52,7 @@
     "morgan": "^1.10.0",
     "pinia": "^2.1.6",
     "pinia-plugin-persistedstate": "^3.2.0",
+    "purecss": "^3.0.0",
     "reflect-metadata": "^0.1.13",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4"
