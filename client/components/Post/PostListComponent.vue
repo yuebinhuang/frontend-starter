@@ -5,13 +5,13 @@ import PostComponent from "@/components/Post/PostComponent.vue";
 import { useUserStore } from "@/stores/user";
 import { fetchy } from "@/utils/fetchy";
 import { storeToRefs } from "pinia";
-import { onBeforeMount, reactive, ref } from "vue";
+import { onBeforeMount, ref } from "vue";
 import SearchPostForm from "./SearchPostForm.vue";
 
 const { isLoggedIn } = storeToRefs(useUserStore());
 
 const loaded = ref(false);
-let posts: Array<Record<string, string>> = reactive([]);
+let posts = ref<Array<Record<string, string>>>([]);
 let editing = ref("");
 let searchAuthor = ref("");
 
@@ -24,7 +24,7 @@ async function getPosts(author?: string) {
     return;
   }
   searchAuthor.value = author ? author : "";
-  Object.assign(posts, postResults);
+  posts.value = postResults;
 }
 
 function updateEditing(id: string) {
