@@ -2,11 +2,12 @@
 import { useToastStore } from "@/stores/toast";
 import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
-import { onBeforeMount } from "vue";
-import { RouterLink, RouterView } from "vue-router";
+import { computed, onBeforeMount } from "vue";
+import { RouterLink, RouterView, useRoute } from "vue-router";
 
+const currentRoute = useRoute();
+const currentRouteName = computed(() => currentRoute.name);
 const userStore = useUserStore();
-
 const { isLoggedIn } = storeToRefs(userStore);
 const { toast } = storeToRefs(useToastStore());
 
@@ -25,14 +26,21 @@ onBeforeMount(async () => {
     <nav>
       <div class="title">
         <img src="@/assets/images/logo.svg" />
-        <RouterLink to="/">
+        <RouterLink :to="{ name: 'Home' }">
           <h1>Social Media App</h1>
         </RouterLink>
       </div>
-      <div class="right">
-        <RouterLink v-if="isLoggedIn" to="/setting" class="button">Settings</RouterLink>
-        <RouterLink v-else to="/login" class="button">Login/Register</RouterLink>
-      </div>
+      <ul>
+        <li>
+          <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }"> Home </RouterLink>
+        </li>
+        <li v-if="isLoggedIn">
+          <RouterLink :to="{ name: 'Settings' }" :class="{ underline: currentRouteName == 'Settings' }"> Settings </RouterLink>
+        </li>
+        <li v-else>
+          <RouterLink :to="{ name: 'Login' }" :class="{ underline: currentRouteName == 'Login' }"> Login </RouterLink>
+        </li>
+      </ul>
     </nav>
     <article v-if="toast !== null" class="toast" :class="toast.style">
       <p>{{ toast.message }}</p>
@@ -56,26 +64,32 @@ h1 {
   margin: 0;
 }
 
-img {
-  height: 2em;
-}
-
 .title {
   display: flex;
   align-items: center;
   gap: 0.5em;
 }
 
-.right {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 1em;
+img {
+  height: 2em;
 }
 
 a {
   font-size: large;
   color: black;
   text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 1em;
+}
+
+.underline {
+  text-decoration: underline;
 }
 </style>

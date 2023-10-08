@@ -9,12 +9,12 @@ const { logoutUser, deleteUser } = useUserStore();
 
 async function logout() {
   await logoutUser();
-  void router.push({ name: "home" });
+  void router.push({ name: "Home" });
 }
 
 async function delete_() {
   await deleteUser();
-  void router.push({ name: "home" });
+  void router.push({ name: "Home" });
 }
 </script>
 
