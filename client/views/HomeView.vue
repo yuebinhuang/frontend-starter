@@ -5,6 +5,7 @@ import PostComponent from "@/components/Post/PostComponent.vue";
 import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
 import { onBeforeMount, reactive, ref } from "vue";
+import { fetchy } from "../utils/fetchy";
 
 const { currentUsername, isLoggedIn } = storeToRefs(useUserStore());
 
@@ -18,15 +19,8 @@ async function getPosts(author?: string) {
     url = url + `?author=${author}`;
   }
 
-  const response = await fetch(url);
-  const result = await response.json();
-  if (response.ok) {
-    result.forEach(function (element: Record<string, string>) {
-      element.dateCreated = new Date(element.dateCreated).toLocaleString();
-      element.dateUpdated = new Date(element.dateUpdated).toLocaleString();
-    });
-    Object.assign(posts, result);
-  }
+  const postResults = await fetchy(url, "GET");
+  Object.assign(posts, postResults);
 }
 
 function updateEditing(id: string) {

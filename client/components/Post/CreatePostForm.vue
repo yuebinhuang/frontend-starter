@@ -1,25 +1,20 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { fetchy } from "../../utils/fetchy";
 
 const content = ref("");
 const emit = defineEmits(["refreshPosts"]);
 
 const createPost = async (content: string) => {
-  const response = await fetch("api/posts", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      content: content,
-    }),
-  });
-
-  // Empty form and refresh posts.
-  if (response.ok) {
-    emit("refreshPosts");
-    emptyForm();
+  try {
+    await fetchy("api/posts", "POST", {
+      body: { content },
+    });
+  } catch (_) {
+    return;
   }
+  emit("refreshPosts");
+  emptyForm();
 };
 
 const emptyForm = () => {

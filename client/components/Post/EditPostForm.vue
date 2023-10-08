@@ -1,26 +1,19 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { fetchy } from "../../utils/fetchy";
 
 const props = defineProps(["post"]);
 const content = ref(props.post.content);
 const emit = defineEmits(["editPost", "refreshPosts"]);
 
 const editPost = async (content: string) => {
-  const response = await fetch(`api/posts/${props.post._id}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      update: { content: content },
-    }),
-  });
-
-  // Empty form and refresh posts.
-  if (response.ok) {
-    emit("editPost");
-    emit("refreshPosts");
+  try {
+    await fetchy(`api/posts/${props.post._id}`, "PATCH", { body: { update: { content: content } } });
+  } catch (e) {
+    return;
   }
+  emit("editPost");
+  emit("refreshPosts");
 };
 </script>
 
