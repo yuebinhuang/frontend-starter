@@ -27,7 +27,7 @@ onBeforeMount(async () => {
       <div class="title">
         <img src="@/assets/images/logo.svg" />
         <RouterLink :to="{ name: 'Home' }">
-          <h1 class="title">Social Media App</h1>
+          <h1>Social Media App</h1>
         </RouterLink>
       </div>
       <ul>
@@ -64,14 +64,14 @@ h1 {
   margin: 0;
 }
 
-img {
-  height: 2em;
-}
-
 .title {
   display: flex;
   align-items: center;
   gap: 0.5em;
+}
+
+img {
+  height: 2em;
 }
 
 a {
@@ -82,7 +82,9 @@ a {
 
 ul {
   list-style-type: none;
+  margin-left: auto;
   display: flex;
+  align-items: center;
   flex-direction: row;
   gap: 1em;
 }
