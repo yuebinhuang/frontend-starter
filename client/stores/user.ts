@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 
-import { BodyT, fetchy } from "../utils/fetchy";
+import { BodyT, fetchy } from "@/utils/fetchy";
 
 export const useUserStore = defineStore(
   "user",
