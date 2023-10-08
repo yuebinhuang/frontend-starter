@@ -27,7 +27,6 @@ export const useUserStore = defineStore(
     };
 
     const updateSession = async () => {
-      // Catch the exception to not alert when the user is not logged in
       const { username } = await fetchy("api/session", "GET", { alert: false });
       currentUsername.value = username;
     };
