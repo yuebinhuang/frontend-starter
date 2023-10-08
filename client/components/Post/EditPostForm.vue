@@ -36,14 +36,12 @@ form {
   display: flex;
   flex-direction: column;
   gap: 0.5em;
-  padding: 1em;
 }
 
 textarea {
   font-family: inherit;
   font-size: inherit;
   height: 6em;
-  padding: 0.5em;
   border-radius: 4px;
   resize: none;
 }
