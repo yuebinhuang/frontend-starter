@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CreatePostForm from "@/components/Post/CreatePostForm.vue";
+import EditPostForm from "@/components/Post/EditPostForm.vue";
 import PostComponent from "@/components/Post/PostComponent.vue";
 import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
@@ -9,6 +10,7 @@ const { currentUsername, isLoggedIn } = storeToRefs(useUserStore());
 
 const loaded = ref(false);
 let posts: Array<Record<string, string>> = reactive([]);
+let editing = ref("");
 
 async function getPosts(author?: string) {
   let url = "api/posts";
@@ -27,6 +29,10 @@ async function getPosts(author?: string) {
   }
 }
 
+function updateEditing(id: string) {
+  editing.value = id;
+}
+
 onBeforeMount(async () => {
   await getPosts();
   loaded.value = true;
@@ -41,9 +47,13 @@ onBeforeMount(async () => {
     <section v-if="isLoggedIn">
       <CreatePostForm @refreshPosts="getPosts" />
     </section>
-    <section class="posts" v-if="loaded">
-      <PostComponent v-for="post in posts" :key="post._id" :post="post" @refreshPosts="getPosts" />
+    <section class="posts" v-if="loaded && posts">
+      <article v-for="post in posts" :key="post._id">
+        <PostComponent v-if="editing !== post._id" :post="post" @refreshPosts="getPosts" @editPost="updateEditing" />
+        <EditPostForm v-else :post="post" @refreshPosts="getPosts" @editPost="updateEditing" />
+      </article>
     </section>
+    <p v-else-if="loaded">No posts found</p>
     <p v-else>Loading...</p>
   </main>
 </template>
@@ -59,6 +69,14 @@ section {
   gap: 1em;
   margin: 0 auto;
   max-width: 60em;
+}
+
+article {
+  background-color: lightgray;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  padding: 1em;
 }
 
 .posts {
