@@ -1,1 +1,18 @@
 /* Add some global styles here! */
+
+a.button {
+  color: #212529;
+  background-color: #f1f3f5;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25em;
+  padding: 0.375em 0.75em;
+  text-decoration: none;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+}

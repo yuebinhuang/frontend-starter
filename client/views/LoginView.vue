@@ -4,17 +4,9 @@ import RegisterForm from "@/components/Login/RegisterForm.vue";
 </script>
 
 <template>
-  <h1>This is the login page!</h1>
-  <RegisterForm />
-  <LoginForm />
+  <main class="column">
+    <h1>Please login or register!</h1>
+    <LoginForm />
+    <RegisterForm />
+  </main>
 </template>
-
-<style scoped>
-h1 {
-  text-align: center;
-}
-
-.form {
-  text-align: center;
-}
-</style>

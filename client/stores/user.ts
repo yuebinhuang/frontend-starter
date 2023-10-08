@@ -1,6 +1,7 @@
-import router from "@/router";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
+
+import { BodyT, fetchy } from "../utils/fetchy";
 
 export const useUserStore = defineStore(
   "user",
@@ -9,74 +10,51 @@ export const useUserStore = defineStore(
 
     const isLoggedIn = computed(() => currentUsername.value !== "");
 
+    const resetStore = () => {
+      currentUsername.value = "";
+    };
+
     const createUser = async (username: string, password: string) => {
-      const response = await fetch("api/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-        }),
+      await fetchy("api/users", "POST", {
+        body: { username, password },
       });
-      // console.log(response);
-      const result = await response.json();
-      // console.log(result);
-      if (response.ok) {
-        const username: string = result.user.username;
-        const password: string = result.user.password;
-
-        await router.push({ name: "Home" });
-
-        return { username, password };
-      }
     };
 
     const loginUser = async (username: string, password: string) => {
-      const response = await fetch("api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-        }),
+      await fetchy("api/login", "POST", {
+        body: { username, password },
       });
-      // console.log(response);
-      const result = await response.json();
-      // console.log(result);
-
-      await router.push({ name: "Home" });
     };
 
     const updateSession = async () => {
-      const response = await fetch("api/session");
-      // console.log(response);
-      const result = await response.json();
-      // console.log(result);
-      if (response.ok) {
-        currentUsername.value = result.username;
-      }
+      const { username } = await fetchy("api/session", "GET", { alert: false });
+      currentUsername.value = username;
     };
 
     const logoutUser = async () => {
-      const response = await fetch("api/logout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      // console.log(response);
-      // const result = await response.json();
-      // console.log(result);
-      currentUsername.value = "";
-
-      await router.push({ name: "Login" });
+      await fetchy("api/logout", "POST");
+      resetStore();
     };
 
-    return { currentUsername, isLoggedIn, createUser, loginUser, updateSession, logoutUser };
+    const updateUser = async (patch: BodyT) => {
+      await fetchy("api/users", "PATCH", { body: { update: patch } });
+    };
+
+    const deleteUser = async () => {
+      await fetchy("api/users", "DELETE");
+      resetStore();
+    };
+
+    return {
+      currentUsername,
+      isLoggedIn,
+      createUser,
+      loginUser,
+      updateSession,
+      logoutUser,
+      updateUser,
+      deleteUser,
+    };
   },
   { persist: true },
 );

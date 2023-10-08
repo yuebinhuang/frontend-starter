@@ -30,10 +30,11 @@ To run the server, you need to create a MongoDB Atlas instance and connect your 
 Using two seperate, dedicated terminals:
 
 Run `npm run dev:server` to start the backend server.
-If you make changes to your backend code, you need to manually restart the server.
+This will automatically restart the server code if you make changes to it.
+In active server development, we recommend you run `npm start:server`.
 
 Run `npm run dev:client` to start the client server.
-Changes to the client code should automatically recompile and hot-reload without needing to restart the server.
+Changes to the client code should automatically recompile and hot-reload without needing to restart the client server.
 
 ## Local Development
 You should copy over your `concepts/` folder, `app.ts`, `responses.ts`, and `routes.ts` from your backend starter code into the relevant places in `server/`.
