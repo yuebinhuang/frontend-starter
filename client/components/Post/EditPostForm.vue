@@ -24,15 +24,15 @@ const editPost = async (content: string) => {
     <p v-if="props.post.dateCreated !== props.post.dateUpdated">Edited on: {{ props.post.dateUpdated }}</p>
     <p v-else>Created on: {{ props.post.dateCreated }}</p>
     <menu>
-      <li><button type="submit">Save</button></li>
-      <li><button @click="emit('editPost')">Cancel</button></li>
+      <li><button class="btn-small pure-button-primary pure-button" type="submit">Save</button></li>
+      <li><button class="btn-small pure-button" @click="emit('editPost')">Cancel</button></li>
     </menu>
   </form>
 </template>
 
 <style scoped>
 form {
-  background-color: lightgray;
+  background-color: var(--base-bg);
   display: flex;
   flex-direction: column;
   gap: 0.5em;

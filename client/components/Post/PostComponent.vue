@@ -19,12 +19,14 @@ const deletePost = async () => {
 <template>
   <p class="author">{{ props.post.author }}</p>
   <p>{{ props.post.content }}</p>
-  <p v-if="props.post.dateCreated !== props.post.dateUpdated">Edited on: {{ props.post.dateUpdated }}</p>
-  <p v-else>Created on: {{ props.post.dateCreated }}</p>
   <menu v-if="props.post.author == currentUsername">
-    <li><button @click="emit('editPost', props.post._id)">Edit</button></li>
-    <li><button @click="deletePost">Delete</button></li>
+    <li><button class="btn-small pure-button" @click="emit('editPost', props.post._id)">Edit</button></li>
+    <li><button class="button-error btn-small pure-button" @click="deletePost">Delete</button></li>
   </menu>
+  <article class="timestamp">
+    <p v-if="props.post.dateCreated !== props.post.dateUpdated">Edited on: {{ props.post.dateUpdated }}</p>
+    <p v-else>Created on: {{ props.post.dateCreated }}</p>
+  </article>
 </template>
 
 <style scoped>
@@ -43,5 +45,12 @@ menu {
   flex-direction: row;
   gap: 1em;
   padding: 0;
+}
+
+.timestamp {
+  display: flex;
+  justify-content: flex-end;
+  font-style: italic;
+  font-size: 0.9em;
 }
 </style>

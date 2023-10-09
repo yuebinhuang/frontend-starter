@@ -26,10 +26,3 @@ async function delete_() {
     <UpdateUserForm />
   </main>
 </template>
-
-<style scoped>
-.button-error {
-  color: white;
-  background-color: #dc3545;
-}
-</style>
