@@ -21,18 +21,20 @@ const editPost = async (content: string) => {
   <form @submit.prevent="editPost(content)">
     <p class="author">{{ props.post.author }}</p>
     <textarea id="content" v-model="content" placeholder="Create a post!"> </textarea>
-    <p v-if="props.post.dateCreated !== props.post.dateUpdated">Edited on: {{ props.post.dateUpdated }}</p>
-    <p v-else>Created on: {{ props.post.dateCreated }}</p>
-    <menu>
-      <li><button type="submit">Save</button></li>
-      <li><button @click="emit('editPost')">Cancel</button></li>
-    </menu>
+    <div class="base">
+      <menu>
+        <li><button class="btn-small pure-button-primary pure-button" type="submit">Save</button></li>
+        <li><button class="btn-small pure-button" @click="emit('editPost')">Cancel</button></li>
+      </menu>
+      <p v-if="props.post.dateCreated !== props.post.dateUpdated" class="timestamp">Edited on: {{ props.post.dateUpdated }}</p>
+      <p v-else class="timestamp">Created on: {{ props.post.dateCreated }}</p>
+    </div>
   </form>
 </template>
 
 <style scoped>
 form {
-  background-color: lightgray;
+  background-color: var(--base-bg);
   display: flex;
   flex-direction: column;
   gap: 0.5em;
@@ -61,5 +63,19 @@ menu {
   flex-direction: row;
   gap: 1em;
   padding: 0;
+  margin: 0;
+}
+
+.base {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.timestamp {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 0.9em;
+  font-style: italic;
 }
 </style>
