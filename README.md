@@ -67,6 +67,7 @@ Here's an overview of the files and directories:
 - `client/components` contains reusable Vue components used throughout your app to build and compose different parts of the UI.
 - `client/router` contains `index.ts` which enables client-side routing by defining and managing the navigation of your app by mapping URLs to different components. Includes navigation guards that allow you to control access to routes and execute code before or after route changes.
 - `client/stores` contains individual store modules for storage and state management for specific aspects of your app.
+- `client/utils` contains useful utility functions that can be called throughout your app. For example, `fetchy` is a wrapper function around the native Fetch API call that handles errors and alerts the messages to the user.
 - `client/views` contains various top-level components that represent the different views or pages of your app. The views are commonly used in conjunction with Vue Router to map specific routes to these view components and render them when the corresponding route is visited.
 - `client/App.vue` contains the app-level component whose properties are maintained throughout the app.
 - `client/main.ts` contains the main configuration of the app. You should not edit this file.
