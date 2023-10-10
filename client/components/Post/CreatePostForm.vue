@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { fetchy } from "@/utils/fetchy";
 import { ref } from "vue";
+import { fetchy } from "../../utils/fetchy";
 
 const content = ref("");
 const emit = defineEmits(["refreshPosts"]);
@@ -25,7 +25,7 @@ const emptyForm = () => {
 <template>
   <form @submit.prevent="createPost(content)">
     <label for="content">Post Contents:</label>
-    <textarea id="content" v-model="content" placeholder="Create a post!"> </textarea>
+    <textarea id="content" v-model="content" placeholder="Create a post!" required> </textarea>
     <button type="submit" class="pure-button-primary pure-button">Create Post</button>
   </form>
 </template>
