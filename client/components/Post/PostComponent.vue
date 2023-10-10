@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user";
-import { fetchy } from "@/utils/fetchy";
 import { storeToRefs } from "pinia";
+import { fetchy } from "../../utils/fetchy";
+import { formatDate } from "@/utils/formatDate";
+
 const props = defineProps(["post"]);
 const emit = defineEmits(["editPost", "refreshPosts"]);
 const { currentUsername } = storeToRefs(useUserStore());
@@ -25,8 +27,8 @@ const deletePost = async () => {
       <li><button class="button-error btn-small pure-button" @click="deletePost">Delete</button></li>
     </menu>
     <article class="timestamp">
-      <p v-if="props.post.dateCreated !== props.post.dateUpdated">Edited on: {{ props.post.dateUpdated }}</p>
-      <p v-else>Created on: {{ props.post.dateCreated }}</p>
+      <p v-if="props.post.dateCreated !== props.post.dateUpdated">Edited on: {{ formatDate(props.post.dateUpdated) }}</p>
+      <p v-else>Created on: {{ formatDate(props.post.dateCreated) }}</p>
     </article>
   </div>
 </template>

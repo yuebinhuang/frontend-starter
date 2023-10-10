@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { fetchy } from "@/utils/fetchy";
 import { ref } from "vue";
+import { fetchy } from "../../utils/fetchy";
+import { formatDate } from "../../utils/formatDate";
 
 const props = defineProps(["post"]);
 const content = ref(props.post.content);
@@ -26,8 +27,8 @@ const editPost = async (content: string) => {
         <li><button class="btn-small pure-button-primary pure-button" type="submit">Save</button></li>
         <li><button class="btn-small pure-button" @click="emit('editPost')">Cancel</button></li>
       </menu>
-      <p v-if="props.post.dateCreated !== props.post.dateUpdated" class="timestamp">Edited on: {{ props.post.dateUpdated }}</p>
-      <p v-else class="timestamp">Created on: {{ props.post.dateCreated }}</p>
+      <p v-if="props.post.dateCreated !== props.post.dateUpdated" class="timestamp">Edited on: {{ formatDate(props.post.dateUpdated) }}</p>
+      <p v-else class="timestamp">Created on: {{ formatDate(props.post.dateCreated) }}</p>
     </div>
   </form>
 </template>
